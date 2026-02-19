@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f6f8f7;
+  --card: #ffffff;
+  --text: #0b0f0d;
+  --muted: #55615b;
+  --border: rgba(0,0,0,0.12);
+  --bio: #39ff88;
+}
+
+.dark {
+  --bg: #070a08;
+  --card: #0c100e;
+  --text: #e8f2ec;
+  --muted: #9fb2a7;
+  --border: rgba(255,255,255,0.12);
+  --bio: #39ff88;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(57,255,136,0.25);
+}
