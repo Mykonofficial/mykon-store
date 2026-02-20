@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import Link from "next/link";
+import Image from "next/image";
 import { products } from "@/lib/products";
 import { Badge } from "@/components/ui/badge";
 
@@ -22,28 +23,46 @@ export default function ShopPage() {
             <Link
               key={p.id}
               href={`/product/${p.slug}`}
-              className="group rounded-3xl border border-[var(--border)] bg-[var(--card)] p-6 transition hover:shadow-glow"
+              className="group rounded-3xl border border-[var(--border)] bg-[var(--card)] overflow-hidden transition hover:shadow-glow"
             >
-              <div className="flex items-center justify-between">
-                <div className="text-xs font-bold tracking-widest text-[var(--muted)]">DROP 01</div>
-                <Badge className="border-[var(--bio)] text-[var(--bio)]">COMING SOON</Badge>
+              {/* Product Image */}
+              {p.images.length > 0 ? (
+                <div className="relative w-full overflow-hidden bg-[var(--bg)] aspect-square">
+                  <Image
+                    src={p.images[0]}
+                    alt={p.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              ) : (
+                <div className="relative w-full bg-[var(--bg)] aspect-square flex items-center justify-center text-[var(--muted)]">
+                  No image
+                </div>
+              )}
+              
+              <div className="p-6">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-bold tracking-widest text-[var(--muted)]">DROP 01</div>
+                  <Badge className="border-[var(--bio)] text-[var(--bio)]">COMING SOON</Badge>
+                </div>
+
+                <div className="mt-6 text-xl font-black tracking-tight">{p.name}</div>
+                <p className="mt-2 text-sm text-[var(--muted)]">{p.description}</p>
+
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {p.features.slice(0, 2).map((f) => (
+                    <span
+                      key={f}
+                      className="rounded-full border border-[var(--border)] px-3 py-1 text-xs text-[var(--muted)]"
+                    >
+                      {f}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-8 text-sm font-semibold text-[var(--bio)]">View Details →</div>
               </div>
-
-              <div className="mt-6 text-xl font-black tracking-tight">{p.name}</div>
-              <p className="mt-2 text-sm text-[var(--muted)]">{p.description}</p>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                {p.features.slice(0, 2).map((f) => (
-                  <span
-                    key={f}
-                    className="rounded-full border border-[var(--border)] px-3 py-1 text-xs text-[var(--muted)]"
-                  >
-                    {f}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-8 text-sm font-semibold text-[var(--bio)]">View Details →</div>
             </Link>
           ))}
         </div>

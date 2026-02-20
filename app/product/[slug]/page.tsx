@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { products } from "@/lib/products";
@@ -17,6 +18,41 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
       <main className="mx-auto max-w-6xl px-4 py-14">
         <div className="grid gap-10 md:grid-cols-2">
           <div className="space-y-4">
+            {/* Product Images Gallery */}
+            <div className="rounded-3xl border border-[var(--border)] bg-[var(--card)] p-6">
+              {product.images.length > 0 ? (
+                <div className="space-y-4">
+                  <div className="relative w-full overflow-hidden rounded-2xl bg-[var(--bg)] aspect-square">
+                    <Image
+                      src={product.images[0]}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  {product.images.length > 1 && (
+                    <div className="grid grid-cols-3 gap-3">
+                      {product.images.slice(1).map((img, idx) => (
+                        <div key={idx} className="relative w-full overflow-hidden rounded-lg bg-[var(--bg)] aspect-square cursor-pointer hover:opacity-75 transition">
+                          <Image
+                            src={img}
+                            alt={`${product.name} view ${idx + 2}`}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="rounded-2xl bg-[var(--bg)] aspect-square flex items-center justify-center text-[var(--muted)]">
+                  No images available
+                </div>
+              )}
+            </div>
+
             <div className="rounded-3xl border border-[var(--border)] bg-[var(--card)] p-6">
               <div className="text-xs font-bold tracking-widest text-[var(--muted)]">MYKON LAB SERIES</div>
               <div className="mt-3 flex items-center gap-3">
