@@ -1,42 +1,10 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { createClient } from "@supabase/supabase-js";
 
-// Store emails in a simple JSON file (you can upgrade to a database later)
-const DATA_FILE = path.join(process.cwd(), "presale-emails.json");
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 
-interface PresaleSignup {
-  email: string;
-  signup_date: string;
-}
-
-function readEmails(): PresaleSignup[] {
-  try {
-    if (fs.existsSync(DATA_FILE)) {
-      const data = fs.readFileSync(DATA_FILE, "utf-8");
-      return JSON.parse(data);
-    }
-  } catch (e) {
-    console.error("Error reading emails file:", e);
-  }
-  return [];
-}
-
-function saveEmail(email: string): void {
-  const emails = readEmails();
-  
-  // Check if email already exists
-  if (emails.some(e => e.email === email)) {
-    throw new Error("Email already registered");
-  }
-
-  emails.push({
-    email,
-    signup_date: new Date().toISOString()
-  });
-
-  fs.writeFileSync(DATA_FILE, JSON.stringify(emails, null, 2));
-}
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(req: Request) {
   try {
@@ -53,16 +21,35 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid email format" }, { status: 400 });
     }
 
-    saveEmail(email);
-    
-    return NextResponse.json({ 
-      message: "Successfully joined presale list!",
-      email 
-    }, { status: 200 });
-  } catch (err: any) {
+    // Insert into Supabase
+    const { data, error } = await supabase
+      .from("presale_signups")
+      .insert([{ email }]);
+
+    if (error) {
+      if (error.code === "23505") {
+        // Unique constraint violation
+        return NextResponse.json(
+          { error: "Email already registered" },
+          { status: 400 }
+        );
+      }
+      throw error;
+    }
+
     return NextResponse.json(
-      { error: err?.message || "Failed to signup" }, 
+      {
+        message: "Successfully joined presale list!",
+        email
+      },
+      { status: 200 }
+    );
+  } catch (err: any) {
+    console.error("Presale signup error:", err);
+    return NextResponse.json(
+      { error: err?.message || "Failed to signup" },
       { status: 400 }
     );
   }
 }
+
