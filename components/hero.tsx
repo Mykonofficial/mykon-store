@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import PresaleForm from "./presale-form";
 
 export function Hero() {
   return (
@@ -36,13 +37,7 @@ export function Hero() {
             <p className="mt-2 text-sm text-[var(--muted)]">
               Presales are opening soon. Join the list to get early access before the public drop.
             </p>
-            <form className="mt-4 flex flex-col gap-3 sm:flex-row">
-              <input
-                placeholder="Enter your email"
-                className="w-full rounded-2xl border border-[var(--border)] bg-transparent px-4 py-3 text-sm outline-none focus:border-[var(--bio)]"
-              />
-              <Button type="button" className="sm:w-48">Join Presale</Button>
-            </form>
+            <PresaleForm />
           </div>
         </div>
       </div>

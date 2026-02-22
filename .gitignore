@@ -5,3 +5,5 @@ node_modules
 .vscode
 # Local env
 .env.local
+.vercel
+.env*.local
