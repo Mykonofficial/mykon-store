@@ -18,7 +18,7 @@ export const products: Product[] = [
     slug: "drop-01-jacket",
     name: "DROP 01 — BIOTECH HYBRID JACKET",
     status: "coming_soon",
-    price: 280,
+    price: 80,
     description:
       "A biotech-luxury hybrid jacket engineered for evolution. Precision cut, lab-grade minimalism, and mycelium-inspired linework with adaptive bio-stitch mapping.",
     features: [
@@ -30,14 +30,14 @@ export const products: Product[] = [
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     images: ["/images/mykon-jacket-front.jpg"]
-    // priceId: "price_XXXXXXXXXXXXXXXX" // optional: add your Stripe Price ID here
+    // priceId: "80$" // optional: add your Stripe Price ID here
   },
   {
     id: "drop02-pants",
     slug: "drop-02-cargo-pants",
     name: "DROP 02 — ENGINEERED CARGO PANTS",
     status: "coming_soon",
-    price: 220,
+    price: 60,
     description:
       "Lab-engineered cargo pants with precision utility. Combines biotech aesthetics with functional cargo construction.",
     features: [
@@ -49,6 +49,7 @@ export const products: Product[] = [
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     images: ["/images/mykon-pants-front.jpg"]
-    // priceId: "price_XXXXXXXXXXXXXXXX" // optional: add your Stripe Price ID here
+    // priceId: "60$
+    //" // optional: add your Stripe Price ID here
   }
 ];
